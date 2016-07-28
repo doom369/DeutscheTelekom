@@ -41,6 +41,7 @@ public class MeasurementReader implements Runnable {
 
     @Override
     public void run() {
+        log.info("Making request...");
         HttpGet getMeasurementRequest = new HttpGet(hostUrl + "/measurement/measurements");
         getMeasurementRequest.setHeader("Authorization", "Basic " + base64Hash);
 
@@ -58,6 +59,7 @@ public class MeasurementReader implements Runnable {
         } catch (Exception e) {
             log.error("Error getting measurements.", e);
         }
+        log.info("Finished...");
     }
 
     private void sendDataToBlynk(Measurement measurement) throws IOException {
