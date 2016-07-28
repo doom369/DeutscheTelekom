@@ -11,4 +11,9 @@ public class Source {
 
     public String self;
 
+    @Override
+    public String toString() {
+        return "Source{" +
+                "id='" + id +'}';
+    }
 }

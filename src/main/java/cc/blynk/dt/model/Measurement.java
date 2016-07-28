@@ -27,4 +27,15 @@ public class Measurement implements Comparable<Measurement> {
     public int compareTo(Measurement o) {
         return o != null && time != null ? o.time.compareTo(time) : -1;
     }
+
+    @Override
+    public String toString() {
+        return "Measurement{" +
+                "id='" + id + '\'' +
+                ", time=" + time +
+                ", source=" + source +
+                ", type='" + type + '\'' +
+                ", Temperatur=" + Temperatur +
+                '}';
+    }
 }

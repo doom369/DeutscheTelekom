@@ -51,10 +51,7 @@ public class MeasurementReader implements Runnable {
                 Data data = parse(response);
                 for (Measurement measurement : data.measurements) {
                     if (measurement.type.equals("Temperatur")) {
-                        Unit unit = measurement.Temperatur.get(0);
-                        if (unit != null) {
-                            sendDataToBlynk(unit);
-                        }
+                        sendDataToBlynk(measurement);
                     }
                 }
             }
@@ -63,19 +60,23 @@ public class MeasurementReader implements Runnable {
         }
     }
 
-    private void sendDataToBlynk(Unit unit) throws IOException {
+    private void sendDataToBlynk(Measurement measurement) throws IOException {
         //hardcoded auth token and pin
 
-        //put into value display widget
-        HttpPut put = new HttpPut("http://blynk-cloud.com/743cecc5eab44fa0a9ef9c208d2e95f6/pin/V0");
-        put.setEntity(new StringEntity("[\"" + unit.value + " " + unit.unit + "\"]", ContentType.APPLICATION_JSON));
-        try (CloseableHttpResponse response = httpclient.execute(put)) {
 
+        Unit unit = measurement.Temperatur.get(0);
+        if (unit != null) {
+            //put into value display widget
+            HttpPut put = new HttpPut("http://blynk-cloud.com/743cecc5eab44fa0a9ef9c208d2e95f6/pin/V0");
+            put.setEntity(new StringEntity("[\"" + unit.value + " " + unit.unit + "\"]", ContentType.APPLICATION_JSON));
+            try (CloseableHttpResponse response = httpclient.execute(put)) {
+
+            }
         }
 
         //put into terminal widget
-        put = new HttpPut("http://blynk-cloud.com/743cecc5eab44fa0a9ef9c208d2e95f6/pin/V1");
-        put.setEntity(new StringEntity("[\"" + unit.value + " " + unit.unit + "\\n" + "\"]", ContentType.APPLICATION_JSON));
+        HttpPut put = new HttpPut("http://blynk-cloud.com/743cecc5eab44fa0a9ef9c208d2e95f6/pin/V1");
+        put.setEntity(new StringEntity("[\"" + measurement.toString()  + "\\n" + "\"]", ContentType.APPLICATION_JSON));
         try (CloseableHttpResponse response = httpclient.execute(put)) {
 
         }
