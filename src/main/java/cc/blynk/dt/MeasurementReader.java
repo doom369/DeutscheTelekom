@@ -74,6 +74,13 @@ public class MeasurementReader implements Runnable {
             try (CloseableHttpResponse response = httpclient.execute(put)) {
 
             }
+
+            //put into value display widget
+            put = new HttpPut("http://blynk-cloud.com/743cecc5eab44fa0a9ef9c208d2e95f6/pin/V2");
+            put.setEntity(new StringEntity("[\"" + unit.value + "\"]", ContentType.APPLICATION_JSON));
+            try (CloseableHttpResponse response = httpclient.execute(put)) {
+
+            }
         }
 
         //put into terminal widget
